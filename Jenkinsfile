@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git credentialsId: '2', url: 'https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify', branch: 'master'
+                git credentialsId: '2', url: 'https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify.git', branch: 'master'
             }
         }
 
