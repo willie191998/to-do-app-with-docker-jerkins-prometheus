@@ -8,6 +8,12 @@ pipeline {
     }
 
     stages {
+        stage('Clone Repository') {
+            steps {
+                git credentialsId: '2', url: 'https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify', branch: 'master'
+            }
+        }
+
         stage('Build image') {
             steps {
                 sh 'docker build -t ${ECR_REPO_NAME}:${BUILD_ID} .'
@@ -62,6 +68,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             sh 'docker image prune -a --force'
