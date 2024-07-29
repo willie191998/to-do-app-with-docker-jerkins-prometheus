@@ -29,9 +29,10 @@ pipeline {
             steps {
                 script {
                     def appImage = "${DOCKER_REPO_NAME}:${BUILD_ID}"
-
+                    sh "ls"
                     // Build the Docker images using docker-compose
-                    sh 'docker-compose build'
+                    sh "docker-compose build"
+                    sh "ls -a"
                     echo "Building Docker images..."
                     // Log in to Docker Hub
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
