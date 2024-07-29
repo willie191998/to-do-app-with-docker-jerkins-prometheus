@@ -36,7 +36,7 @@ pipeline {
                     echo "Building Docker images..."
 
                     // Log in to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                         sh """
                             echo \$DOCKER_PASSWORD | docker login --username \$DOCKER_USERNAME --password-stdin
                         """
