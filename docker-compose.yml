@@ -1,7 +1,8 @@
 version: "3.7"
 services:
   app:
-    image: node:14.15.0-alpine
+    image: wiley19/to-do-list:1  # Use your Docker Hub username and tag
+    build: .  # This tells Docker Compose to build the image from the Dockerfile in the current directory
     command: sh -c "yarn install && yarn run dev"
     ports:
       - 3000:3000
@@ -14,7 +15,6 @@ services:
       MYSQL_PASSWORD: 123
       MYSQL_DB: todo-db
 
-
   mysql:
     image: mysql:5.7
     volumes:
@@ -22,5 +22,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_DATABASE: todo-db
+
 volumes:
   todo-mysql-data:

@@ -43,7 +43,7 @@ pipeline {
                     }
 
                     // Tag the image correctly
-                    sh "docker tag to-do-list_app:${BUILD_ID} ${appImage}"
+                    sh "docker tag ${DOCKER_USERNAME}/to-do-list:${BUILD_ID} ${appImage}"
 
                     // Push the image to Docker Hub
                     sh "docker push ${appImage}"
