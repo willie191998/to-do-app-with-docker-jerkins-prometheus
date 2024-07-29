@@ -28,7 +28,8 @@ pipeline {
         stage('Build and Push to Docker Hub') {
             steps {
                 script {
-                    def appImage = "${DOCKER_REPO_NAME}:${BUILD_ID}"
+                    //def appImage = "${DOCKER_REPO_NAME}:${BUILD_ID}"
+                    def appImage = "${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:${BUILD_ID}"
                     sh "ls"
                     // Build the Docker images using docker-compose
                     sh "docker-compose build"
