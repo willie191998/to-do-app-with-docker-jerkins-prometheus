@@ -2,7 +2,7 @@ version: "3.7"
 services:
   app:
     image: node:14.15.0-alpine # Use your Docker Hub username and tag
-    command: sh -c "yarn install && yarn run dev"
+    command: sh -c "yarn install && yarn run dev" 
     ports:
       - 3000:3000
     working_dir: /app
