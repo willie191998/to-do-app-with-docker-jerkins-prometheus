@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        DOCKER_USERNAME = 'wiley19'
         AWS_REGION = 'eu-west-2'  // Replace with your desired region
         EC2_USER = 'ec2-user'     // Replace with your EC2 user
         EC2_IP = '18.170.117.56'
