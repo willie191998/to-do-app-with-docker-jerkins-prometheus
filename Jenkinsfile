@@ -7,12 +7,12 @@ pipeline {
         DOCKER_REPO_NAME = 'to-do-list'
         BUILD_ID = '1'
     }
-    
+
 
     stages {
         stage('Clone Repository') {
             steps {
-                git credentialsId: '2', url: 'https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify.git', branch: 'master'
+                git credentialsId: '4', url: 'https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify.git', branch: 'master'
             }
         }
 
