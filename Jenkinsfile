@@ -36,16 +36,17 @@ pipeline {
                     echo "Building Docker images..."
 
                     // Log in to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh """
+                            echo \$DOCKER_PASSWORD | docker login --username \$DOCKER_USERNAME --password-stdin
+                        """
                     }
 
+                    // Tag the image correctly
+                    sh "docker tag to-do-list_app:${BUILD_ID} ${appImage}"
 
-                    // Tag the image
-                    sh "docker tag to-do-list_app:1 ${DOCKER_USERNAME}/to-do-list:1"
-                    echo "Pushing Docker images..."
                     // Push the image to Docker Hub
-                    sh "docker push \$DOCKER_USERNAME/${appImage}"
+                    sh "docker push ${appImage}"
                 }
             }
         }
