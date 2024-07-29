@@ -16,7 +16,6 @@ pipeline {
             }
         }
 
-
         stage('Build and Push to Docker Hub') {
             steps {
                 script {
@@ -43,7 +42,7 @@ pipeline {
                 }
             }
         }
-        
+
 
         stage('Deploy to EC2') {
             steps {
