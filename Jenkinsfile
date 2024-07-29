@@ -13,6 +13,15 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git credentialsId: '4', url: 'https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify.git', branch: 'master'
+                echo "Cloning Repo..."
+            }
+        }
+
+        stage('Check Docker Version') {
+            steps {
+                sh 'docker --version'
+                sh 'docker-compose --version'
+                echo "TEsting docker setup"
             }
         }
 
@@ -23,7 +32,7 @@ pipeline {
 
                     // Build the Docker images using docker-compose
                     sh 'docker-compose build'
-
+                    echo "Building Docker images..."
                     // Log in to Docker Hub
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                         sh "echo \$DOCKER_PASSWORD | docker login --username \$DOCKER_USERNAME --password-stdin"
@@ -31,7 +40,7 @@ pipeline {
 
                     // Tag the image
                     sh "docker tag ${DOCKER_REPO_NAME}_app:${BUILD_ID} \$DOCKER_USERNAME/${appImage}"
-
+                    echo "Pushing Docker images..."
                     // Push the image to Docker Hub
                     sh "docker push \$DOCKER_USERNAME/${appImage}"
                 }
@@ -43,7 +52,7 @@ pipeline {
                 script {
                     echo 'Deploying docker image to EC2'
                     def dockerCmd = "docker run -p 8080:8080 -d \$DOCKER_USERNAME/${DOCKER_REPO_NAME}:${BUILD_ID}"
-
+                    echo "Deploying Docker image to EC2..."
                     sshagent(['5']) {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} '
