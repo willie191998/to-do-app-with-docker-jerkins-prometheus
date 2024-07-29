@@ -34,10 +34,12 @@ pipeline {
                     sh "docker-compose build"
                     sh "ls -a"
                     echo "Building Docker images..."
+
                     // Log in to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "echo \$DOCKER_PASSWORD | docker login --username \$DOCKER_USERNAME --password-stdin"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
                     }
+
 
                     // Tag the image
                     sh "docker tag ${DOCKER_REPO_NAME}_app:${BUILD_ID} \$DOCKER_USERNAME/${appImage}"
