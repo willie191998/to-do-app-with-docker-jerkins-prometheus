@@ -1,10 +1,11 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CRED = credentials('wiley19')
         AWS_REGION = 'eu-west-2'  // Replace with your desired region
-        ECR_REPO_NAME = 'todo-app'
-        APP_RUNNER_SERVICE_NAME = 'to-do-app'
+        EC2_USER = 'ec2-user'      // Replace with your EC2 user
+        EC2_IP = '18.170.117.56'
+        DOCKER_REPO_NAME = 'to-do-list'
+        BUILD_ID = '1'
     }
 
     stages {
@@ -14,55 +15,48 @@ pipeline {
             }
         }
 
-        stage('Build image') {
+        stage('Build and Push to Docker Hub') {
             steps {
-                sh 'docker build -t ${ECR_REPO_NAME}:${BUILD_ID} .'
-                sh 'docker images'
-            }
-        }
+                script {
+                    // Retrieve Docker Hub credentials from Jenkins
+                    def dockerCredentials = credentials('docker-hub-credentials') // Replace with your actual credentials ID
+                    def DOCKER_USERNAME = dockerCredentials.username
+                    def DOCKER_PASSWORD = dockerCredentials.password
+                    // Define the Docker Hub image name
+                    def appImage = "${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:${BUILD_ID}"
 
-        stage('Push to ECR') {
-            steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: '1']]) {
-                    script {
-                        // Get the login command from ECR
-                        def ecrLogin = sh(script: "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com", returnStdout: true).trim()
-                        sh ecrLogin
+                    // Build the Docker images using docker-compose
+                    sh 'docker-compose build'
 
-                        // Tag and push the image to ECR
-                        sh "docker tag ${ECR_REPO_NAME}:${BUILD_ID} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${BUILD_ID}"
-                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${BUILD_ID}"
+                    // Log in to Docker Hub
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-id', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
                     }
+
+                    // Tag the image
+                    sh "docker tag ${DOCKER_REPO_NAME}_app:${BUILD_ID} ${appImage}"
+
+                    // Push the image to Docker Hub
+                    sh "docker push ${appImage}"
                 }
             }
         }
 
-        stage('Deploy to App Runner') {
+        stage('Deploy to EC2') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: '1']]) {
-                    script {
-                        // Create or update App Runner service
-                        def appRunnerConfig = """
-                        {
-                            "ServiceName": "${APP_RUNNER_SERVICE_NAME}",
-                            "SourceConfiguration": {
-                                "ImageRepository": {
-                                    "ImageIdentifier": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${BUILD_ID}",
-                                    "ImageConfiguration": {
-                                        "Port": "80"
-                                    },
-                                    "ImageRepositoryType": "ECR"
-                                },
-                                "AutoDeploymentsEnabled": true
-                            },
-                            "InstanceConfiguration": {
-                                "Cpu": "1024",
-                                "Memory": "2048"
-                            }
-                        }
+                script {
+                    echo 'Deploying docker image to EC2'
+                    // Ensure the correct command for the image name
+                    def dockerCmd = "docker run -p 8080:8080 -d ${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:${BUILD_ID}"
+                    sshagent(['5']) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} '
+                            cd /path/to/your/docker-compose/directory && \
+                            docker-compose pull && \
+                            docker-compose down && \
+                            docker-compose up -d
+                            '
                         """
-                        sh "echo '${appRunnerConfig}' > app-runner-config.json"
-                        sh "aws apprunner create-service --cli-input-json file://app-runner-config.json || aws apprunner update-service --service-name ${APP_RUNNER_SERVICE_NAME} --source-configuration file://app-runner-config.json"
                     }
                 }
             }
