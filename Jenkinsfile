@@ -7,6 +7,7 @@ pipeline {
         DOCKER_REPO_NAME = 'to-do-list'
         BUILD_ID = '1'
     }
+    
 
     stages {
         stage('Clone Repository') {
@@ -62,7 +63,7 @@ pipeline {
             }
         }
     }
-    
+
 
     post {
         always {
