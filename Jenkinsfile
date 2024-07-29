@@ -10,6 +10,10 @@ pipeline {
         BUILD_ID = '1'
     }
 
+    options {
+        timeout(time: 4, unit: 'MINUTES')
+    }
+    
     stages {
         stage('Clone Repository') {
             steps {
