@@ -2,9 +2,6 @@ version: "3.7"
 services:
   app:
     image: node:14.15.0-alpine # Use your Docker Hub username and tag
-    build:
-      context: .
-      dockerfile: Dockerfile     # This tells Docker Compose to build the image from the Dockerfile in the current directory
     command: sh -c "yarn install && yarn run dev"
     ports:
       - 3000:3000
