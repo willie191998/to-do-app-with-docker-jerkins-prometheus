@@ -74,16 +74,17 @@ pipeline {
                         sshagent(['5']) {
                         
                         // Connect to the EC2 instance and execute commands
+                        /*
                         sh """
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             # Create the directory if it doesn't exist
                             mkdir -p /docker/
                         """
-                        
+                        */
 
                         sh '''
                             # Copy the new docker-compose.yml file to the EC2 instance
-                            scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/docker/
+                            scp -o StrictHostKeyChecking=no ./* ${EC2_USER}@${EC2_IP}:/docker/
                             # Connect to the EC2 instance and execute commands
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             cd ./exe && \
