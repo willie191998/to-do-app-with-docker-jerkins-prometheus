@@ -1,6 +1,6 @@
 # to-do-app-with-docker-jerkins-ec2-prometheus-grafana
 
-This tutorial shows how to deploy a simple containirzed app to Amplify through a Jerkins CICD pipeline, it covers the following topics:
+This tutorial shows how to deploy a simple app to Amplify through a Jerkins CICD pipeline, it covers the following topics:
 
 - Building containers
 - Using volumes to persist data
@@ -8,7 +8,7 @@ This tutorial shows how to deploy a simple containirzed app to Amplify through a
 - Using container networking to support multi-container applications
 - Creating Jerkins files, integrating Jenkins and GitHub
 - Using Jerkins to automate build and deployments
-- Deploy multi docker container to EC2 and monitor using Grafana, Prometheus
+- Deploy multi-docker container to EC2 and monitor using Grafana, Prometheus
 
 ## Getting Started
 
@@ -26,8 +26,8 @@ This tutorial shows how to deploy a simple containirzed app to Amplify through a
    - Jenkins, an open-source automation server, was chosen for CI/CD due to its flexibility and self-hosting capabilities.
    - Jenkins pulls the latest code from GitHub, builds the Docker image, and pushes it to Docker Hub.
    - Install the following directly on the server Docker, Docker-compose, 
-   - Install the following plugins on Jenkins; Github, docker pipeline, Git, build pipeline, etc. Ensure appropriate set up of Jenkins
-   - Write scripts carefully, ensure secure and valid authentication credentials, ensure adequate authorization to EC2 through IAM roles
+   - Install the following plugins on Jenkins; Github, docker pipeline, Git, build pipeline, etc. Ensure appropriate setup of Jenkins
+   - Write scripts carefully, ensure secure and valid authentication credentials, and ensure adequate authorization to EC2 through IAM roles
    - Ensure credentials are handled securely
 
 4. # Deployment to Second EC2 Server:
@@ -53,8 +53,6 @@ This tutorial shows how to deploy a simple containirzed app to Amplify through a
   - Open-source monitoring and visualization tools.
   - Prometheus scrapes and stores metrics.
   - Grafana visualizes metrics, creating insightful dashboards.
-
-
 
 I will be writing more detailed documentation of the process on my blog, you should check it out with the link
 
