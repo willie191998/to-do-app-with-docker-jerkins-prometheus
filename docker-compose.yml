@@ -6,7 +6,7 @@ services:
     ports:
       - 3000:3000
     working_dir: /app
-    volumes:
+    volumes: 
       - ./:/app
     environment:
       MYSQL_HOST: mysql
