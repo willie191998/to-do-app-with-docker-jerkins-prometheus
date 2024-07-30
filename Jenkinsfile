@@ -77,9 +77,10 @@ pipeline {
                         sh '''
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             # Create the directory if it doesn't exist
+                            ls && \
                             if [ -d /docker ]; then
                                 if [ "$(ls -A /docker)" ]; then
-                                    rm -r /docker/*
+                                    rm -r /docker/* && \
                                 else
                                     echo "Directory /docker is empty, nothing to remove"
                                 fi
