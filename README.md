@@ -54,6 +54,8 @@ This tutorial shows how to deploy a simple containirzed app to Amplify through a
   - Prometheus scrapes and stores metrics.
   - Grafana visualizes metrics, creating insightful dashboards.
 
+
+
 I will be writing more detailed documentation of the process on my blog, you should check it out with the link
 
 ### Why Jenkins?
