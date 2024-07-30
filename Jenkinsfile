@@ -77,24 +77,24 @@ pipeline {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             # Create the directory if it doesn't exist
-                            mkdir -p /path/to/your/docker-compose/
+                            mkdir -p /docker/
                             EOF
                         """
                         
                         sh """
                             # Copy the new docker-compose.yml file to the EC2 instance
-                            scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/path/to/your/docker-compose/
+                            scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/docker/
 
                             # Connect to the EC2 instance and execute commands
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
-                            cd /path/to/your/docker-compose/ && \
+                            cd && \
                             # Stop and remove all running containers
                             docker stop \$(docker ps -q) && \
                             docker rm \$(docker ps -aq) && \
                             # Remove the existing docker-compose.yml
                             rm -f docker-compose.yml && \
                             # Move the new docker-compose.yml to the current directory
-                            mv docker-compose.yml . && \
+                            mv /docker/docker-compose.yml . && \
                             # Start the new containers
                             docker-compose up -d
                             EOF
