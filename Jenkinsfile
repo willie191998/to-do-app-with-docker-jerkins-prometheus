@@ -9,7 +9,7 @@ pipeline {
         EC2_IP = '18.170.117.56'
         DOCKER_IMAGE_NAME = 'to-do-list'
         DOCKER_IMAGE_TAG = '1'
-        SOURCE_IMAGE_NAME = 'node:14.15.0-alpine' // or the image you are pulling
+        SOURCE_IMAGE_NAME = 'node:14.15.0' // or the image you are pulling
     }
 
     options {
@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     
-                    def fullImageName = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                    def fullImageName = "${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                     
                     // Pull the existing image from Docker Hub
                     sh "docker pull ${SOURCE_IMAGE_NAME}"
