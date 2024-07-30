@@ -76,9 +76,8 @@ pipeline {
                         // Connect to the EC2 instance and execute commands
                         sh '''
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
-                            # Create the directory if it doesn't exist
                             pwd && \
-                            #rm -r ./docker/* && \
+                            #rm -r ./docker/*
                         '''
                         
                         sh '''
@@ -92,13 +91,6 @@ pipeline {
                                 docker stop $(docker ps -q) && \
                                 docker rm $(docker ps -aq)
                             fi
-                            # Synchronize files and directories using rsync
-                            #rsync -av --exclude='.git' --exclude='node_modules' --exclude='*.log' --ignore-existing /docker/ ./ && \
-                            # Remove the existing contents of the directory
-                            #rm -rf ./* && \
-                            # Move the new docker-compose.yml to the current directory
-                            #mv /docker/* . && \
-                            # Start the new containers
                             docker-compose up -d
                         '''
                     }
@@ -125,4 +117,13 @@ ls -a && \
                                     rm -r ./docker/* && \
                                 fi && \
                             fi
+
+
+                            # Synchronize files and directories using rsync
+                            #rsync -av --exclude='.git' --exclude='node_modules' --exclude='*.log' --ignore-existing /docker/ ./ && \
+                            # Remove the existing contents of the directory
+                            #rm -rf ./* && \
+                            # Move the new docker-compose.yml to the current directory
+                            #mv /docker/* . && \
+                            # Start the new containers
                             */
