@@ -79,12 +79,12 @@ pipeline {
                             # Create the directory if it doesn't exist
                             ls -a && \
                             mkdir -p ./docker && \
-                            if [ -d /docker ]
-                            then
-                                if [ "$(ls -A /docker)" ]
-                                then
+                            if [ -d /docker ] && \
+                            then && \
+                                if [ "$(ls -A /docker)" ] && \
+                                then && \
                                     rm -r ./docker/* && \
-                                fi
+                                fi && \
                             fi
                         '''
                         
