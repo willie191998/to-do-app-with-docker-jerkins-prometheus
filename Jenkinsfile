@@ -77,7 +77,7 @@ pipeline {
                         sh '''
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             # Create the directory if it doesn't exist
-                            ls && \
+                            ls -a && \
                             if [ -d /docker ]; then
                                 if [ "$(ls -A /docker)" ]; then
                                     rm -r /docker/* && \
@@ -86,7 +86,7 @@ pipeline {
                                 fi
                             else
                                 echo "Directory /docker does not exist"
-                                mkdir -p /docker/ && \
+                                mkdir -p /docker && \
                             fi
                         '''
                         
