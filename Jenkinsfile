@@ -93,8 +93,10 @@ pipeline {
                                 docker stop $(docker ps -q) && \
                                 docker rm $(docker ps -aq)
                             fi
-                            # Remove the existing docker-compose.yml
-                            rm -r . && \
+                            # Synchronize files and directories using rsync
+                            #rsync -av --ignore-existing /docker/ ./ && \
+                            # Remove the existing contents of the directory
+                            rm -rf ./* && \
                             # Move the new docker-compose.yml to the current directory
                             mv /docker/* . && \
                             # Start the new containers
