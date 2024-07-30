@@ -1,6 +1,7 @@
 pipeline {
     agent any
 
+    //pLEASE MODIFY THIS
     environment {
         DOCKER_USERNAME = 'wiley19'
         AWS_REGION = 'eu-west-2'  // Replace with your desired region
@@ -76,7 +77,7 @@ pipeline {
                         // copy the new docker-compose file, and start the new containers.
                         sh """
                             scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/path/to/your/docker-compose/
-                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} '
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP}'
                             cd ./ && \
                             docker-compose down && \
                             rm docker-compose.yml && \
