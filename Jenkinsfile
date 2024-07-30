@@ -74,7 +74,7 @@ pipeline {
                         sshagent(['5']) {
                         
                         // Connect to the EC2 instance and execute commands
-                        sh """
+                        sh '''
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             # Create the directory if it doesn't exist
                             if [ -d /docker ]; then
@@ -87,7 +87,7 @@ pipeline {
                                 echo "Directory /docker does not exist"
                                 mkdir -p /docker/ && \
                             fi
-                        """
+                        '''
                         
                         sh '''
                             # Copy the new docker-compose.yml file to the EC2 instance
