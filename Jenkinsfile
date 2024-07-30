@@ -28,7 +28,7 @@ pipeline {
             steps {
                 sh 'docker --version'
                 sh 'docker-compose --version'
-                echo "TEsting docker setup"
+                echo "Testing docker setup"
             }
         }
 
