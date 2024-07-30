@@ -89,7 +89,7 @@ pipeline {
                             pwd
                             ls
                             # Check if there are running containers, stop and remove them if there are any
-                            if [ $(docker ps -q) ]; then
+                            if [ $(docker ps) ]; then
                                 docker stop $(docker ps -q)
                                 docker rm $(docker ps -aq)
                             fi
