@@ -77,15 +77,8 @@ pipeline {
                         sh '''
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             # Create the directory if it doesn't exist
-                            ls -a && \
                             mkdir -p ./docker && \
-                            if [ -d /docker ] && \
-                            then && \
-                                if [ "$(ls -A /docker)" ] && \
-                                then && \
-                                    rm -r ./docker/* && \
-                                fi && \
-                            fi
+                            rm -r ./docker/* && \
                         '''
                         
                         sh '''
@@ -121,3 +114,15 @@ pipeline {
         }
     }
 }
+
+/*
+ls -a && \
+                            mkdir -p ./docker && \
+                            if [ -d /docker ] && \
+                            then && \
+                                if [ "$(ls -A /docker)" ] && \
+                                then && \
+                                    rm -r ./docker/* && \
+                                fi && \
+                            fi
+                            */
