@@ -93,6 +93,7 @@ pipeline {
                                 docker stop $(docker ps -q)
                                 docker rm $(docker ps -aq)
                             fi
+                            docker-compose down
                             docker-compose up -d
                         '''
                     }
