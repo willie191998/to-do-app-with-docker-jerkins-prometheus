@@ -78,7 +78,6 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << EOF
                             pwd 
                             #rm -r ./docker/*
-                            EOF
                         '''
                         
                         sh '''
