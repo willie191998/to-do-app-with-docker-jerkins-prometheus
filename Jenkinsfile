@@ -71,20 +71,24 @@ pipeline {
                 script { 
                     echo 'Deploying Docker image to EC2'
                     def fullImageName = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-
-                    sshagent(['5']) { // Replace with your Jenkins SSH credentials ID
-                        // Stop and remove any running containers, delete the existing docker-compose file,
-                        // copy the new docker-compose file, and start the new containers.
+                        sshagent(['5']) {
                         sh """
+                            # Copy the new docker-compose.yml file to the EC2 instance
                             scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/path/to/your/docker-compose/
-                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP}'
-                            cd ./ && \
-                            docker-compose down && \
-                            rm docker-compose.yml && \
-                            docker stop $(docker ps -q)
-                            mv /path/to/your/docker-compose/docker-compose.yml . && \
+
+                            # Connect to the EC2 instance and execute commands
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
+                            cd /path/to/your/docker-compose/ && \
+                            # Stop and remove all running containers
+                            docker stop \$(docker ps -q) && \
+                            docker rm \$(docker ps -aq) && \
+                            # Remove the existing docker-compose.yml
+                            rm -f docker-compose.yml && \
+                            # Move the new docker-compose.yml to the current directory
+                            mv docker-compose.yml . && \
+                            # Start the new containers
                             docker-compose up -d
-                            '
+                            EOF
                         """
                     }
                 }
