@@ -38,5 +38,10 @@ services:
     ports:
       - '9100:9100'
 
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "4000:4000"
+  
 volumes:
   todo-mysql-data:
