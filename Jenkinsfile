@@ -88,8 +88,9 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             cd ./exe && \
                             # Stop and remove all running containers
-                            docker stop $(docker ps -q) && \
-                            docker rm $(docker ps -aq) && \
+                            #docker stop $(docker ps -q) && \
+                            #docker rmi $(docker images -q) && \
+                            #docker rm $(docker ps -aq) && \
                             # Remove the existing docker-compose.yml
                             rm -f docker-compose.yml && \
                             # Move the new docker-compose.yml to the current directory
