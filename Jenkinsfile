@@ -13,7 +13,7 @@ pipeline {
     options {
         timeout(time: 4, unit: 'MINUTES')
     }
-    
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -37,8 +37,8 @@ pipeline {
                     def appImage = "${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:${BUILD_ID}"
                     sh "ls"
                     // Build the Docker images using docker-compose
-                    sh "docker-compose build"
-                    sh "ls -a"
+                    sh "docker-compose build -t ${appImage}"
+                    //sh "ls -a"
                     echo "Building Docker images..."
 
                     // Log in to Docker Hub
@@ -49,7 +49,7 @@ pipeline {
                     }
 
                     // Tag the image correctly
-                    sh "docker tag ${DOCKER_REPO_NAME}_app ${appImage}"
+                    //sh "docker tag ${DOCKER_REPO_NAME}_app ${appImage}"
 
                     // Push the image to Docker Hub
                     sh "docker push ${appImage}"
