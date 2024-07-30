@@ -37,7 +37,7 @@ pipeline {
                     def appImage = "${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:${BUILD_ID}"
                     sh "ls"
                     // Build the Docker images using docker-compose
-                    sh "docker-compose build -t ${appImage}"
+                    sh "docker-compose build"
                     //sh "ls -a"
                     echo "Building Docker images..."
 

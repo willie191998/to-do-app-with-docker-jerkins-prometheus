@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   app:
-    image: to-do-list_app:latest  #node:14.15.0-alpine # Use your Docker Hub username and tag
+    image: wiley19/to-do-list:latest  #node:14.15.0-alpine  #Use your Docker Hub username and tag
     command: sh -c "yarn install && yarn run dev" 
     ports:
       - 3000:3000
