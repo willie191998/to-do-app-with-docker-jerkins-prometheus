@@ -94,7 +94,7 @@ pipeline {
                                 docker rm $(docker ps -aq)
                             fi
                             # Remove the existing docker-compose.yml
-                            rm -f docker-compose.yml && \
+                            rm -r . && \
                             # Move the new docker-compose.yml to the current directory
                             mv /docker/* . && \
                             # Start the new containers
