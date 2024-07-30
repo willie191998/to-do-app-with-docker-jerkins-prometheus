@@ -33,12 +33,14 @@ pipeline {
         stage('Build and Push to Docker Hub') {
             steps {
                 script {
-                    //def appImage = "${DOCKER_REPO_NAME}:${BUILD_ID}"
-                    def appImage = "${DOCKER_USERNAME}/${DOCKER_REPO_NAME}:${BUILD_ID}"
+                    def appImage = "wiley19/${DOCKER_REPO_NAME}:${BUILD_ID}"
+                    
+                    // List files to check if the directory is correct
                     sh "ls"
+                    
                     // Build the Docker images using docker-compose
                     sh "docker-compose build"
-                    //sh "ls -a"
+                    
                     echo "Building Docker images..."
 
                     // Log in to Docker Hub
@@ -49,7 +51,7 @@ pipeline {
                     }
 
                     // Tag the image correctly
-                    //sh "docker tag ${DOCKER_REPO_NAME}_app ${appImage}"
+                    sh "docker tag to-do-list_app:latest ${appImage}"
 
                     // Push the image to Docker Hub
                     sh "docker push ${appImage}"
