@@ -84,7 +84,7 @@ pipeline {
 
                         sh '''
                             # Copy the new docker-compose.yml file to the EC2 instance
-                            scp -o StrictHostKeyChecking=no -r . ${EC2_USER}@${EC2_IP}:/docker/
+                            scp -o StrictHostKeyChecking=no -r app docs docker-compose.yml Dockerfile yarn.lock package.json ${EC2_USER}@${EC2_IP}:/docker/
                             # Connect to the EC2 instance and execute commands
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             cd ./exe && \
@@ -95,7 +95,7 @@ pipeline {
                             # Remove the existing docker-compose.yml
                             rm -f docker-compose.yml && \
                             # Move the new docker-compose.yml to the current directory
-                            mv -r /docker/* . && \
+                            mv /docker/* . && \
                             # Start the new containers
                             docker-compose up -d
                         '''
