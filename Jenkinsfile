@@ -80,6 +80,7 @@ pipeline {
                             mkdir -p /docker/
                         """
                         
+                        
                         sh """
                             # Copy the new docker-compose.yml file to the EC2 instance
                             scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/docker/
