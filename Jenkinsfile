@@ -75,10 +75,11 @@ pipeline {
                         
                         // Connect to the EC2 instance and execute commands
                         sh '''
-                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} '
                             # Create the directory if it doesn't exist
-                            mkdir -p ./docker && \
+                            sudo mkdir -p ./docker && sudo chown ${EC2_USER}:${EC2_USER} /docker && sudo chmod 777 /docker
                             rm -r ./docker/* && \
+                            '
                         '''
                         
                         sh '''
