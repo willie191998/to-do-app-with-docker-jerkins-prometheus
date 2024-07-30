@@ -6,8 +6,9 @@ pipeline {
         AWS_REGION = 'eu-west-2'  // Replace with your desired region
         EC2_USER = 'ec2-user'     // Replace with your EC2 user
         EC2_IP = '18.170.117.56'
-        DOCKER_REPO_NAME = 'to-do-list'
-        BUILD_ID = '1'
+        DOCKER_IMAGE_NAME = 'to-do-list'
+        DOCKER_IMAGE_TAG = '1'
+        SOURCE_IMAGE_NAME = 'node:14.15.0-alpine' // or the image you are pulling
     }
 
     options {
@@ -33,14 +34,19 @@ pipeline {
         stage('Build and Push to Docker Hub') {
             steps {
                 script {
-                    def appImage = "wiley19/${DOCKER_REPO_NAME}:${BUILD_ID}"
                     
+                    def fullImageName = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                    
+                    // Pull the existing image from Docker Hub
+                    sh "docker pull ${SOURCE_IMAGE_NAME}"
+
                     // List files to check if the directory is correct
                     sh "ls"
                     
                     // Build the Docker images using docker-compose
                     sh "docker-compose build"
                     
+                    // Build Docker images
                     echo "Building Docker images..."
 
                     // Log in to Docker Hub
@@ -49,12 +55,12 @@ pipeline {
                             echo \$DOCKER_PASSWORD | docker login --username \$DOCKER_USERNAME --password-stdin
                         """
                     }
-
-                    // Tag the image correctly
-                    sh "docker tag node:14.15.0-alpine ${appImage}"
+                    
+                    // Tag the existing image
+                    sh "docker tag ${SOURCE_IMAGE_NAME} ${fullImageName}"
 
                     // Push the image to Docker Hub
-                    sh "docker push ${appImage}"
+                    sh "docker push ${fullImageName}"
                 }
             }
         }
@@ -62,15 +68,20 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    echo 'Deploying docker image to EC2'
-                    def dockerCmd = "docker run -p 8080:8080 -d \$DOCKER_USERNAME/${DOCKER_REPO_NAME}:${BUILD_ID}"
-                    echo "Deploying Docker image to EC2..."
-                    sshagent(['5']) {
+                    echo 'Deploying Docker image to EC2'
+                    def fullImageName = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+
+                    sshagent(['5']) { // Replace with your Jenkins SSH credentials ID
+                        // Stop and remove any running containers, delete the existing docker-compose file,
+                        // copy the new docker-compose file, and start the new containers.
                         sh """
+                            scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/path/to/your/docker-compose/
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} '
-                            cd /path/to/your/docker-compose/directory && \
-                            docker-compose pull && \
+                            cd ./ && \
                             docker-compose down && \
+                            rm docker-compose.yml && \
+                            docker stop $(docker ps -q)
+                            mv /path/to/your/docker-compose/docker-compose.yml . && \
                             docker-compose up -d
                             '
                         """
