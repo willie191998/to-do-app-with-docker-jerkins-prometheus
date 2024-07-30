@@ -75,8 +75,8 @@ pipeline {
                         
                         // Connect to the EC2 instance and execute commands
                         sh '''
-                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
-                            pwd && \
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << EOF
+                            pwd 
                             #rm -r ./docker/*
                         '''
                         
@@ -84,7 +84,7 @@ pipeline {
                             # Copy the new docker-compose.yml file to the EC2 instance
                             scp -o StrictHostKeyChecking=no -r app docs docker-compose.yml Dockerfile yarn.lock package.json ${EC2_USER}@${EC2_IP}:/docker/
                             # Connect to the EC2 instance and execute commands
-                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << EOF
                             cd ./docker && \
                             # Check if there are running containers, stop and remove them if there are any
                             if [ $(docker ps -q) ]; then
