@@ -68,7 +68,7 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                script {
+                script { 
                     echo 'Deploying Docker image to EC2'
                     def fullImageName = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 
