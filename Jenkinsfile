@@ -86,7 +86,7 @@ pipeline {
                             scp -o StrictHostKeyChecking=no -r app docs docker-compose.yml Dockerfile yarn.lock package.json ${EC2_USER}@${EC2_IP}:/docker/
                             # Connect to the EC2 instance and execute commands
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
-                            cd ./exe && \
+                            cd ./docker && \
                             # Check if there are running containers, stop and remove them if there are any
                             if [ $(docker ps -q) ]; then
                                 docker stop $(docker ps -q) && \
@@ -107,7 +107,7 @@ pipeline {
         }
     }
 
-    
+
     post {
         always {
             sh 'docker image prune -a --force'
