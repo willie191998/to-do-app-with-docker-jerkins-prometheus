@@ -87,7 +87,7 @@ pipeline {
 
                             # Connect to the EC2 instance and execute commands
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
-                            cd && \
+                            cd ./exe && \
                             # Stop and remove all running containers
                             docker stop \$(docker ps -q) && \
                             docker rm \$(docker ps -aq) && \
