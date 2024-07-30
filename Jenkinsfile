@@ -51,7 +51,7 @@ pipeline {
                     }
 
                     // Tag the image correctly
-                    sh "docker tag to-do-list_app:latest ${appImage}"
+                    sh "docker tag node:14.15.0-alpine ${appImage}"
 
                     // Push the image to Docker Hub
                     sh "docker push ${appImage}"
