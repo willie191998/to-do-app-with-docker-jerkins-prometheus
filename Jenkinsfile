@@ -84,7 +84,7 @@ pipeline {
 
                         sh '''
                             # Copy the new docker-compose.yml file to the EC2 instance
-                            scp -o StrictHostKeyChecking=no ./* ${EC2_USER}@${EC2_IP}:/docker/
+                            scp -o StrictHostKeyChecking=no -r ../to-do-app-with-docker-jerkins-amplify ${EC2_USER}@${EC2_IP}:/docker/
                             # Connect to the EC2 instance and execute commands
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             cd ./exe && \
