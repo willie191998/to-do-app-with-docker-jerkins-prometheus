@@ -74,14 +74,13 @@ pipeline {
                         sshagent(['5']) {
                         
                         // Connect to the EC2 instance and execute commands
-                        /*
                         sh """
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
                             # Create the directory if it doesn't exist
-                            mkdir -p /docker/
+                            mkdir -p /docker/ && \
+                            rm -rf ./docker/
                         """
-                        */
-
+                        
                         sh '''
                             # Copy the new docker-compose.yml file to the EC2 instance
                             scp -o StrictHostKeyChecking=no -r app docs docker-compose.yml Dockerfile yarn.lock package.json ${EC2_USER}@${EC2_IP}:/docker/
@@ -94,7 +93,7 @@ pipeline {
                                 docker rm $(docker ps -aq)
                             fi
                             # Synchronize files and directories using rsync
-                            rsync -av --exclude='.git' --exclude='node_modules' --exclude='*.log' --ignore-existing /docker/ ./ && \
+                            #rsync -av --exclude='.git' --exclude='node_modules' --exclude='*.log' --ignore-existing /docker/ ./ && \
                             # Remove the existing contents of the directory
                             #rm -rf ./* && \
                             # Move the new docker-compose.yml to the current directory
