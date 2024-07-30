@@ -77,7 +77,8 @@ pipeline {
                         sh '''
                             ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} '
                             # Create the directory if it doesn't exist
-                            rm -r ./docker/*
+                            pwd && \
+                            #rm -r ./docker/*
                             '
                         '''
                         
