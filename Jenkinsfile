@@ -8,7 +8,7 @@ pipeline {
         EC2_USER = 'ec2-user'     // Replace with your EC2 user
         EC2_IP = '18.170.117.56'
         DOCKER_IMAGE_NAME = 'to-do-list'
-        DOCKER_IMAGE_TAG = '1'
+        DOCKER_IMAGE_TAG = 'latest'
         SOURCE_IMAGE_NAME = 'node:14.15.0' // or the image you are pulling
     }
 
@@ -72,6 +72,15 @@ pipeline {
                     echo 'Deploying Docker image to EC2'
                     def fullImageName = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
                         sshagent(['5']) {
+                        
+                        // Connect to the EC2 instance and execute commands
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} << 'EOF'
+                            # Create the directory if it doesn't exist
+                            mkdir -p /path/to/your/docker-compose/
+                            EOF
+                        """
+                        
                         sh """
                             # Copy the new docker-compose.yml file to the EC2 instance
                             scp -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_IP}:/path/to/your/docker-compose/
