@@ -94,7 +94,7 @@ pipeline {
                                 docker rm $(docker ps -aq)
                             fi
                             # Synchronize files and directories using rsync
-                            rsync -av --ignore-existing /docker/ ./ && \
+                            rsync -av --exclude='.git' --exclude='node_modules' --exclude='*.log' --ignore-existing /docker/ ./ && \
                             # Remove the existing contents of the directory
                             #rm -rf ./* && \
                             # Move the new docker-compose.yml to the current directory
