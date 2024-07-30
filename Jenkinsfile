@@ -94,11 +94,11 @@ pipeline {
                                 docker rm $(docker ps -aq)
                             fi
                             # Synchronize files and directories using rsync
-                            #rsync -av --ignore-existing /docker/ ./ && \
+                            rsync -av --ignore-existing /docker/ ./ && \
                             # Remove the existing contents of the directory
-                            rm -rf ./* && \
+                            #rm -rf ./* && \
                             # Move the new docker-compose.yml to the current directory
-                            mv /docker/* . && \
+                            #mv /docker/* . && \
                             # Start the new containers
                             docker-compose up -d
                         '''
