@@ -10,6 +10,8 @@ This tutorial shows how to deploy a simple app to Amplify through a Jerkins CICD
 - Using Jerkins to automate build and deployments
 - Deploy multi-docker container to EC2 and monitor using Grafana, Prometheus
 
+https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify/blob/master/images/github-jenkins-prometheus_7454494c.gif
+
 ## Getting Started
 
 ### Step-by-Step Process:
@@ -30,6 +32,8 @@ This tutorial shows how to deploy a simple app to Amplify through a Jerkins CICD
    - Write scripts carefully, ensure secure and valid authentication credentials, and ensure adequate authorization to EC2 through IAM roles
    - Ensure credentials are handled securely
 
+https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify/blob/master/images/jenkins%20unlock%20start%20page.png
+
 4. # Deployment to Second EC2 Server:
    - Jenkins sends necessary files (Dockerfile, Jenkinsfile, prometheus.yml) to another EC2 server.
    - Jenkins triggers a script on the second EC2 server to pull the Docker image from Docker Hub and start various containers.
@@ -42,6 +46,9 @@ This tutorial shows how to deploy a simple app to Amplify through a Jerkins CICD
    - Prometheus extracts metrics like HTTP requests and CPU usage, stores these metrics and integrates with Grafana for visualization.
    - Confirm Prometheus and Grafana are running on HTTP://<IP server address>:9090 and HTTP://<IP server address>:4000 respectively
 
+https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify/blob/master/images/grafana%20software%20start.png
+https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify/blob/master/images/prometheus%20server%20monitor.png
+
 ### Tools and Technologies:
 
 - # Jenkins:
@@ -53,6 +60,10 @@ This tutorial shows how to deploy a simple app to Amplify through a Jerkins CICD
   - Open-source monitoring and visualization tools.
   - Prometheus scrapes and stores metrics.
   - Grafana visualizes metrics, creating insightful dashboards.
+
+After everything the server is accessed on port 3000 on your second EC2 server
+
+https://github.com/willie191998/to-do-app-with-docker-jerkins-amplify/blob/master/images/to-do-list-app%20live.png
 
 I will be writing more detailed documentation of the process on my blog, you should check it out with the link
 
