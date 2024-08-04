@@ -43,7 +43,7 @@ https://github.com/willie191998/to-do-app-with-docker-jerkins-prometheus/blob/ma
 
 5. # Running Prometheus and Grafana:
    - Prometheus and Grafana run in Docker containers on the second EC2 server.
-   - Prometheus extracts metrics like HTTP requests and CPU usage, stores these metrics and integrates with Grafana for visualization.
+   - Prometheus extracts metrics like HTTP requests and CPU usage, stores these metrics, and integrates with Grafana for visualization.
    - Confirm Prometheus and Grafana are running on HTTP://<IP server address>:9090 and HTTP://<IP server address>:4000 respectively
 
 https://github.com/willie191998/to-do-app-with-docker-jerkins-prometheus/blob/master/images/grafana%20software%20start.png
@@ -92,3 +92,11 @@ If you find typos or other issues with the tutorial, feel free to create a PR an
 If you have ideas on how to make the tutorial better or new content, please open an issue first before working on your idea. While we love input, we want to keep the tutorial scoped to newcomers.
 As such, we may reject ideas for more advanced requests and don't want you to lose any work you might
 have done. So, ask first and we'll gladly hear your thoughts!
+
+Read more about the project in my blog post -
+
+https://www.digitalspeed.online/all-articles/how-to-create-cicd-pipeline-with-jenkins-setup-prometheus-and-grafana-for-monitoring-10-steps/
+
+https://medium.com/@willie191998/creating-a-cicd-pipeline-using-jenkins-on-aws-ec2-monitoring-using-prometheus-and-grafana-6df4c8bdf5ed
+
+https://dev.to/wiley19/creating-a-cicd-pipeline-using-jenkins-on-aws-ec2-monitoring-using-prometheus-and-grafana-2p7
